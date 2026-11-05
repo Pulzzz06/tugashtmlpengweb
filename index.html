@@ -1,29 +1,48 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Metadata untuk Google -->
-    <title>Profil Diri - Muhammad Zacky Firdaus</title>
-    <meta name="description" content="Halaman profil diri, jadwal kuliah, dan arsip portofolio Muhammad Zacky Firdaus untuk tugas HTML5.">
+    <!-- Metadata SEO -->
+    <title>Muhammad Zacky Firdaus — Portofolio & Profil Diri</title>
+    <meta name="description" content="Portofolio, jadwal perkuliahan, dan ruang arsip digital Muhammad Zacky Firdaus, mahasiswa Teknik Informatika UIN Sunan Gunung Djati Bandung.">
 
-    <!-- Open Graph / OG untuk WhatsApp & Media Sosial -->
-    <meta property="og:title" content="Profil Diri - Muhammad Zacky Firdaus">
-    <meta property="og:description" content="Halaman profil diri menggunakan HTML5 semantik, CSS3, dan JavaScript.">
+    <!-- Open Graph / Media Sosial -->
+    <meta property="og:title" content="Muhammad Zacky Firdaus — Teknik Informatika">
+    <meta property="og:description" content="Fokus pada AI Engineering, Game Development, dan Front-End Web Development.">
     <meta property="og:image" content="pule.jpeg">
 
     <style>
-        :root {
-            --bg-main: #0f172a;
-            --bg-card: #1e293b;
-            --bg-dark: #0b1120;
-            --accent: #38bdf8;
-            --accent-hover: #0284c7;
-            --text-light: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: #334155;
-            --danger: #ef4444;
+        /* =========================================================
+           1. PALET WARNA 1944MUSTANG (DARK MODE & LIGHT MODE)
+           Hitam: #000000 | Navy: #233044 | Slate: #7D8A9A 
+           Putih: #FFFFFF | Oranye: #FF9000
+           ========================================================= */
+        :root[data-theme="dark"] {
+            --bg-primary: #000000;
+            --bg-secondary: #233044;
+            --bg-tertiary: #141d2b;
+            --text-main: #FFFFFF;
+            --text-muted: #9ba8b8;
+            --border-color: #7D8A9A;
+            --accent: #FF9000;
+            --accent-soft: rgba(255, 144, 0, 0.14);
+            --header-bg: rgba(0, 0, 0, 0.85);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.65);
+        }
+
+        :root[data-theme="light"] {
+            --bg-primary: #F2F5F8;
+            --bg-secondary: #FFFFFF;
+            --bg-tertiary: #E5EBF1;
+            --text-main: #000000;
+            --text-muted: #233044;
+            --border-color: #7D8A9A;
+            --accent: #FF9000;
+            --accent-soft: rgba(255, 144, 0, 0.16);
+            --header-bg: rgba(255, 255, 255, 0.9);
+            --card-shadow: 0 8px 24px rgba(35, 48, 68, 0.1);
         }
 
         * {
@@ -34,548 +53,925 @@
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-light);
-            line-height: 1.6;
-            padding-bottom: 60px;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.65;
+            padding-bottom: 100px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
         }
 
-        /* Navigasi Atas */
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 9px;
+            height: 9px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        /* Top Scroll Progress Bar */
+        #scrollProgress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.1s linear;
+        }
+
+        /* =========================================================
+           2. SISTEM ANIMASI HOVER MEMBESAR (FONT, KATA & TOMBOL)
+           ========================================================= */
+        .hover-zoom {
+            display: inline-block;
+            transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
+             transform-origin: center;
+        }
+        .hover-zoom:hover {
+            transform: scale(1.06);
+            color: var(--accent);
+        }
+
+        .word-zoom {
+            display: inline-block;
+            transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.18s ease;
+            cursor: default;
+            padding: 0 1px;
+        }
+        .word-zoom:hover {
+            transform: scale(1.16) translateY(-1px);
+            color: var(--accent);
+        }
+
+        button, .btn, .social-btn, .filter-btn, .nav-links a, .role-card {
+            transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        background-color 0.2s ease, 
+                        border-color 0.2s ease, 
+                        color 0.2s ease,
+                        box-shadow 0.2s ease;
+        }
+
+        button:hover, .btn:hover, .social-btn:hover, .filter-btn:hover {
+            transform: scale(1.07) translateY(-2px);
+        }
+
+        /* =========================================================
+           3. HEADER & NAVIGASI
+           ========================================================= */
         header {
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 900;
+            background: var(--header-bg);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(125, 138, 154, 0.35);
         }
 
-        .nav-container {
-            max-width: 1050px;
+        .nav-bar {
+            max-width: 1080px;
             margin: 0 auto;
-            padding: 14px 20px;
+            padding: 14px 22px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 14px;
         }
 
-        .brand {
+        .brand-logo {
             font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--accent);
+            font-weight: 800;
+            color: var(--text-main);
             text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-logo span {
+            color: var(--accent);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            flex-wrap: wrap;
         }
 
         .nav-links {
             display: flex;
-            gap: 18px;
             list-style: none;
+            gap: 20px;
         }
 
         .nav-links a {
-            color: var(--text-light);
+            color: var(--text-main);
             text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: color 0.2s;
+            font-weight: 600;
+            font-size: 0.92rem;
+            display: inline-block;
         }
 
         .nav-links a:hover {
             color: var(--accent);
+            transform: scale(1.09);
         }
 
-        /* Container Utama */
+        .theme-btn {
+            background: var(--bg-secondary);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.84rem;
+            cursor: pointer;
+        }
+
+        .theme-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* =========================================================
+           4. LAYOUT UTAMA & KARTU SECTION
+           ========================================================= */
         main {
-            max-width: 1050px;
-            margin: 30px auto;
-            padding: 0 20px;
+            max-width: 1080px;
+            margin: 34px auto;
+            padding: 0 22px;
             display: flex;
             flex-direction: column;
             gap: 32px;
         }
 
         section {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            border: 1px solid rgba(125, 138, 154, 0.45);
             border-radius: 14px;
-            padding: 28px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-bottom: 1px solid rgba(125, 138, 154, 0.35);
+            padding-bottom: 12px;
+            margin-bottom: 22px;
         }
 
         .section-title {
-            font-size: 1.4rem;
-            color: var(--accent);
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 10px;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-main);
+            border-left: 4px solid var(--accent);
+            padding-left: 12px;
         }
 
-        /* Bagian Profil / Hero */
-        .profile-grid {
+        /* =========================================================
+           5. PROFIL DIRI & FOKUS KEAHLIAN (AI, GAME DEV, FE DEV)
+           ========================================================= */
+        .hero-layout {
             display: grid;
-            grid-template-columns: 200px 1fr;
-            gap: 28px;
+            grid-template-columns: 210px 1fr;
+            gap: 30px;
             align-items: center;
         }
 
-        @media (max-width: 680px) {
-            .profile-grid {
+        @media (max-width: 720px) {
+            .hero-layout {
                 grid-template-columns: 1fr;
                 text-align: center;
             }
-            .profile-img-wrap {
+            .photo-frame {
                 margin: 0 auto;
             }
-            .social-list {
+            .social-row {
                 justify-content: center;
             }
         }
 
-        .profile-img-wrap img {
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
+        .photo-frame {
+            width: 210px;
+            height: 210px;
             border-radius: 16px;
+            overflow: hidden;
             border: 3px solid var(--accent);
-            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.25);
+            background: var(--bg-tertiary);
+            transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .profile-info h1 {
-            font-size: 1.8rem;
-            margin-bottom: 4px;
+        .photo-frame:hover {
+            transform: scale(1.05) rotate(-1deg);
         }
 
-        .profile-badge {
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .status-pill {
             display: inline-block;
-            background: rgba(56, 189, 248, 0.15);
+            background: var(--accent-soft);
             color: var(--accent);
+            border: 1px solid var(--accent);
             padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .hero-name {
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 6px;
+        }
+
+        .typing-line {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--accent);
+            min-height: 28px;
             margin-bottom: 14px;
         }
 
-        .profile-info p {
-            color: #cbd5e1;
-            margin-bottom: 18px;
+        .cursor-blink {
+            display: inline-block;
+            width: 2px;
+            background: var(--text-main);
+            margin-left: 3px;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .bio-paragraph {
+            color: var(--text-main);
+            font-size: 0.97rem;
+            margin-bottom: 20px;
             text-align: justify;
         }
 
-        .social-list {
+        .social-row {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
             list-style: none;
         }
 
-        .social-list a {
+        .social-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: var(--bg-dark);
-            color: var(--text-light);
-            border: 1px solid var(--border);
-            padding: 8px 16px;
+            background: var(--bg-tertiary);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 9px 16px;
             border-radius: 8px;
             text-decoration: none;
-            font-size: 0.9rem;
             font-weight: 600;
-            transition: all 0.2s;
+            font-size: 0.88rem;
         }
 
-        .social-list a:hover {
+        .social-btn:hover {
             border-color: var(--accent);
             color: var(--accent);
-            transform: translateY(-2px);
         }
 
-        /* Bagian Tabel Jadwal Kuliah */
-        .schedule-controls {
+        /* Kartu 3 Fokus Utama */
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 18px;
+            margin-top: 26px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(125, 138, 154, 0.35);
+        }
+
+        .role-card {
+            background: var(--bg-tertiary);
+            border: 1px solid rgba(125, 138, 154, 0.4);
+            border-radius: 12px;
+            padding: 18px;
+        }
+
+        .role-card:hover {
+            transform: scale(1.03) translateY(-3px);
+            border-color: var(--accent);
+        }
+
+        .role-card h3 {
+            font-size: 1.05rem;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .role-card p {
+            font-size: 0.87rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tech-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: var(--bg-secondary);
+            color: var(--text-main);
+            border: 1px solid rgba(125, 138, 154, 0.45);
+            padding: 3px 9px;
+            border-radius: 5px;
+            transition: transform 0.18s ease, border-color 0.18s ease;
+        }
+
+        .tech-tag:hover {
+            transform: scale(1.1);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* =========================================================
+           6. TABEL JADWAL PERKULIAHAN
+           ========================================================= */
+        .schedule-bar {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
             gap: 12px;
             margin-bottom: 16px;
         }
 
-        .day-filters {
+        .day-buttons {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
         }
 
         .filter-btn {
-            background: var(--bg-dark);
-            color: var(--text-muted);
-            border: 1px solid var(--border);
-            padding: 6px 14px;
+            background: var(--bg-tertiary);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 7px 14px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.84rem;
             font-weight: 600;
-            transition: 0.2s;
         }
 
         .filter-btn.active, .filter-btn:hover {
             background: var(--accent);
-            color: var(--bg-dark);
+            color: #000000;
             border-color: var(--accent);
         }
 
-        .search-input {
-            padding: 8px 14px;
+        .input-box {
+            padding: 9px 14px;
             border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--bg-dark);
-            color: var(--text-light);
+            border: 1px solid var(--border-color);
+            background: var(--bg-tertiary);
+            color: var(--text-main);
+            font-size: 0.88rem;
             min-width: 240px;
         }
 
-        .table-responsive {
+        .input-box:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .table-wrap {
             overflow-x: auto;
             border-radius: 10px;
-            border: 1px solid var(--border);
+            border: 1px solid var(--border-color);
         }
 
         table.krs-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.9rem;
-            background: var(--bg-dark);
+            font-size: 0.88rem;
+            background: var(--bg-tertiary);
         }
 
         table.krs-table th, table.krs-table td {
-            border: 1px solid var(--border);
+            border: 1px solid rgba(125, 138, 154, 0.45);
             padding: 10px 12px;
         }
 
         table.krs-table thead th {
-            background: #273549;
-            color: var(--text-light);
+            background: var(--bg-primary);
+            color: var(--accent);
             font-weight: 700;
             text-align: center;
         }
 
-        .text-center {
-            text-align: center;
+        table.krs-table tbody tr {
+            transition: background-color 0.15s ease;
         }
 
         table.krs-table tbody tr:hover {
-            background: rgba(56, 189, 248, 0.07);
+            background: var(--accent-soft);
         }
 
         table.krs-table tfoot td {
-            background: #273549;
-            font-weight: 700;
-        }
-
-        .ss-preview-box {
-            margin-top: 16px;
-            background: var(--bg-dark);
-            border: 1px dashed var(--border);
-            border-radius: 10px;
-            padding: 14px;
-        }
-
-        .ss-preview-box summary {
-            cursor: pointer;
+            background: var(--bg-primary);
+            font-weight: 800;
             color: var(--accent);
-            font-weight: 600;
-            font-size: 0.9rem;
         }
 
-        .ss-preview-box img {
+        .center {
+            text-align: center;
+        }
+
+        .ss-drawer {
+            margin-top: 16px;
+            background: var(--bg-tertiary);
+            border: 1px dashed var(--border-color);
+            border-radius: 10px;
+            padding: 12px 16px;
+        }
+
+        .ss-drawer summary {
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: var(--accent);
+        }
+
+        .ss-drawer img {
             max-width: 100%;
-            height: auto;
+            border-radius: 8px;
             margin-top: 12px;
-            border-radius: 6px;
-            border: 1px solid var(--border);
+            border: 1px solid var(--border-color);
         }
 
-        /* Bagian Arsip Folder & Upload */
-        .vault-toolbar {
+        /* =========================================================
+           7. RUANG ARSIP DIGITAL (FOLDER, FILE, LINK, & CATATAN TEKS)
+           ========================================================= */
+        .vault-controls {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
-            margin-bottom: 22px;
-            background: var(--bg-dark);
+            background: var(--bg-tertiary);
             padding: 16px;
             border-radius: 10px;
-            border: 1px solid var(--border);
+            border: 1px solid rgba(125, 138, 154, 0.4);
+            margin-bottom: 22px;
         }
 
-        .input-group {
+        .folder-create-group {
             display: flex;
             gap: 8px;
             flex: 1;
             min-width: 260px;
         }
 
-        .input-group input[type="text"] {
+        .folder-create-group input {
             flex: 1;
-            padding: 9px 14px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--bg-card);
-            color: var(--text-light);
         }
 
         .btn {
             background: var(--accent);
-            color: var(--bg-dark);
+            color: #000000;
             font-weight: 700;
-            border: none;
-            padding: 9px 16px;
+            border: 1px solid var(--accent);
+            padding: 9px 15px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.84rem;
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: background 0.2s;
+            text-decoration: none;
         }
 
-        .btn:hover {
-            background: var(--accent-hover);
-            color: #fff;
-        }
-
-        .btn-outline {
+        .btn-secondary {
             background: transparent;
             color: var(--accent);
             border: 1px solid var(--accent);
         }
 
-        .btn-outline:hover {
+        .btn-secondary:hover {
             background: var(--accent);
-            color: var(--bg-dark);
+            color: #000000;
         }
 
         .folder-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
             gap: 18px;
         }
 
         .folder-card {
-            background: var(--bg-dark);
-            border: 1px solid var(--border);
+            background: var(--bg-tertiary);
+            border: 1px solid rgba(125, 138, 154, 0.45);
             border-radius: 12px;
             padding: 16px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: border-color 0.2s ease;
         }
 
-        .folder-header {
+        .folder-card:hover {
+            border-color: var(--accent);
+        }
+
+        .folder-head {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border);
             padding-bottom: 10px;
             margin-bottom: 10px;
+            border-bottom: 1px solid rgba(125, 138, 154, 0.3);
         }
 
-        .folder-title {
+        .folder-name {
             font-weight: 700;
-            color: var(--text-light);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 0.98rem;
+            color: var(--text-main);
         }
 
-        .file-count {
+        .badge-count {
             font-size: 0.75rem;
-            color: var(--text-muted);
-            background: var(--bg-card);
+            background: var(--bg-secondary);
+            color: var(--accent);
+            border: 1px solid rgba(255, 144, 0, 0.4);
             padding: 2px 8px;
             border-radius: 12px;
+            font-weight: 700;
         }
 
-        .file-list {
+        .item-list {
             list-style: none;
-            max-height: 200px;
+            max-height: 210px;
             overflow-y: auto;
             margin-bottom: 14px;
         }
 
-        .file-item {
+        .item-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 7px 6px;
-            border-bottom: 1px dashed #1e293b;
+            border-bottom: 1px dashed rgba(125, 138, 154, 0.25);
             font-size: 0.85rem;
+            gap: 8px;
         }
 
-        .file-item:hover {
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .file-link {
-            color: var(--accent);
-            text-decoration: none;
+        .item-label {
+            color: var(--text-main);
             cursor: pointer;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            max-width: 180px;
-            display: inline-block;
+            flex: 1;
+            transition: transform 0.18s ease, color 0.18s ease;
+            transform-origin: left center;
         }
 
-        .file-link:hover {
-            text-decoration: underline;
+        .item-label:hover {
+            color: var(--accent);
+            transform: scale(1.04);
         }
 
-        .file-meta {
+        .item-meta {
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 0.75rem;
+            font-size: 0.74rem;
             color: var(--text-muted);
+            flex-shrink: 0;
         }
 
-        .del-btn {
-            background: none;
+        .icon-del {
+            background: transparent;
             border: none;
-            color: var(--danger);
+            color: #ef4444;
             cursor: pointer;
-            font-size: 0.85rem;
-            padding: 2px 4px;
+            font-weight: 700;
+            padding: 2px 5px;
         }
 
-        .folder-footer {
+        .folder-actions {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            gap: 8px;
-            padding-top: 8px;
-            border-top: 1px solid #1e293b;
+            gap: 6px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(125, 138, 154, 0.25);
         }
 
-        /* Modal Preview File */
-        .modal-overlay {
+        .btn-mini {
+            font-size: 0.75rem;
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+
+        /* =========================================================
+           8. FLOATING MUSIC PLAYER (JUSTIN BIEBER - CONFIDENT)
+           ========================================================= */
+        .music-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 950;
+            background: var(--bg-secondary);
+            border: 2px solid var(--accent);
+            border-radius: 50px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+        }
+
+        .music-play-btn {
+            background: var(--accent);
+            color: #000000;
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-info {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.78rem;
+            line-height: 1.2;
+        }
+
+        .music-title {
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .music-artist {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+        }
+
+        .eq-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 14px;
+        }
+
+        .eq-bar {
+            width: 3px;
+            background: var(--accent);
+            height: 4px;
+            border-radius: 2px;
+            transition: height 0.2s ease;
+        }
+
+        .playing .eq-bar:nth-child(1) { animation: eq 0.6s infinite ease-in-out; }
+        .playing .eq-bar:nth-child(2) { animation: eq 0.8s infinite ease-in-out 0.2s; }
+        .playing .eq-bar:nth-child(3) { animation: eq 0.5s infinite ease-in-out 0.4s; }
+
+        @keyframes eq {
+            0%, 100% { height: 4px; }
+            50% { height: 14px; }
+        }
+
+        .vol-slider {
+            width: 65px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        /* =========================================================
+           9. MODAL DIALOG (PREVIEW FILE & TAMBAH LINK/CATATAN)
+           ========================================================= */
+        .modal-backdrop {
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.82);
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 999;
+            z-index: 1000;
             padding: 20px;
         }
 
-        .modal-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            max-width: 800px;
+        .modal-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            max-width: 760px;
             width: 100%;
-            max-height: 90vh;
+            max-height: 88vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
         }
 
-        .modal-header {
-            padding: 12px 18px;
-            background: var(--bg-dark);
+        .modal-top {
+            padding: 14px 20px;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid rgba(125, 138, 154, 0.35);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border);
         }
 
-        .modal-body {
-            padding: 20px;
+        .modal-content {
+            padding: 22px;
             overflow-y: auto;
-            text-align: center;
         }
 
-        .modal-body img, .modal-body video {
+        .modal-content img, .modal-content video {
             max-width: 100%;
-            max-height: 70vh;
+            max-height: 68vh;
             border-radius: 8px;
+            display: block;
+            margin: 0 auto;
         }
 
-        .modal-body iframe {
+        .modal-content iframe {
             width: 100%;
-            height: 70vh;
+            height: 68vh;
             border: none;
             border-radius: 8px;
+        }
+
+        .form-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .form-stack label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .form-stack input, .form-stack textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-tertiary);
+            color: var(--text-main);
+            font-family: inherit;
         }
 
         footer {
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-top: 40px;
+            font-size: 0.84rem;
+            margin-top: 30px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Navigasi Atas -->
+    <!-- Progress Scroll Atas -->
+    <div id="scrollProgress"></div>
+
+    <!-- Navigasi Utama -->
     <header>
-        <div class="nav-container">
-            <a href="#" class="brand">⚡ Zacky Firdaus</a>
-            <nav class="navigation">
-                <ul class="nav-links">
-                    <li><a href="#profil">Profil Diri</a></li>
-                    <li><a href="#jadwal">Jadwal Kuliah</a></li>
-                    <li><a href="#arsip">Arsip & Sertifikat</a></li>
-                </ul>
-            </nav>
+        <div class="nav-bar">
+            <a href="#" class="brand-logo hover-zoom">ZACKY<span>.DEV</span></a>
+            <div class="nav-right">
+                <nav class="navigation">
+                    <ul class="nav-links">
+                        <li><a href="#profil">Profil & Fokus</a></li>
+                        <li><a href="#jadwal">Jadwal Kuliah</a></li>
+                        <li><a href="#arsip">Arsip & Link</a></li>
+                    </ul>
+                </nav>
+                <button class="theme-btn" id="themeToggle" onclick="ubahTema()">☀️ Light Mode</button>
+            </div>
         </div>
     </header>
 
     <main>
-        <!-- BAGIAN 1: PROFIL DIRI -->
+        <!-- BAGIAN 1: PROFIL DIRI & BIDANG MINAT -->
         <section id="profil">
-            <h2 class="section-title">👤 Halo, Selamat Datang di Profil Saya!</h2>
-            <div class="profile-grid">
-                <div class="profile-img-wrap">
-                    <img src="pule.jpeg" alt="Foto Profil Muhammad Zacky Firdaus" onerror="this.src='https://via.placeholder.com/200x200/1e293b/38bdf8?text=Zacky+Firdaus'">
+            <div class="section-header">
+                <h2 class="section-title hover-zoom">Profil Diri</h2>
+                <span style="font-size: 0.82rem; color: var(--text-muted);">UIN Sunan Gunung Djati Bandung</span>
+            </div>
+
+            <div class="hero-layout">
+                <div class="photo-frame">
+                    <img src="pule.jpeg" alt="Foto Profil Muhammad Zacky Firdaus" onerror="this.src='https://via.placeholder.com/210x210/233044/FF9000?text=Zacky+Firdaus'">
                 </div>
-                <div class="profile-info">
-                    <span class="profile-badge">Mahasiswa Teknik Informatika • Semester 5</span>
-                    <h1>Muhammad Zacky Firdaus</h1>
-                    <p>
-                        Nama saya Muhammad Zacky Firdaus, biasa dipanggil Zacky. Saya lahir di Bogor pada tanggal 14 Mei 2006. Saat ini saya berusia 20 tahun dan sedang menempuh pendidikan di <strong>UIN Sunan Gunung Djati Bandung</strong>, jurusan Teknik Informatika. Saya memiliki minat yang besar dalam bidang teknologi, rekayasa perangkat lunak, manajemen basis data, serta pemrograman, dan saya senang mempelajari hal-hal baru yang berkaitan dengan dunia digital.
+
+                <div>
+                    <span class="status-pill hover-zoom">Teknik Informatika • Semester 5</span>
+                    <h1 class="hero-name interactive-text">Muhammad Zacky Firdaus</h1>
+                    
+                    <!-- Efek Ketik Otomatis -->
+                    <div class="typing-line">
+                        Fokus Minat: <span id="typedRole"></span><span class="cursor-blink">&nbsp;</span>
+                    </div>
+
+                    <p class="bio-paragraph interactive-text">
+                        Saya biasa dipanggil Zacky, lahir di Bogor pada 14 Mei 2006. Saat ini saya berusia 20 tahun dan sedang menempuh studi S1 Teknik Informatika di UIN Sunan Gunung Djati Bandung. Di perkuliahan maupun proyek mandiri, saya aktif mendalami pengembangan sistem berbasis kecerdasan buatan (AI Engineering), perancangan mekanik serta audio untuk Game Development, dan pembuatan antarmuka web modern sebagai Front-End Developer.
                     </p>
-                    <ul class="social-list">
-                        <li><a href="https://www.instagram.com/zacky_pule" target="_blank">📸 Instagram Saya</a></li>
-                        <li><a href="https://www.youtube.com/@zackypule1456" target="_blank">▶️ YouTube Saya</a></li>
-                        <li><a href="https://github.com/Pulzzz06" target="_blank">💻 GitHub Saya</a></li>
+
+                    <ul class="social-row">
+                        <li><a class="social-btn" href="https://www.instagram.com/zacky_pule" target="_blank">Instagram</a></li>
+                        <li><a class="social-btn" href="https://www.youtube.com/@zackypule1456" target="_blank">YouTube</a></li>
+                        <li><a class="social-btn" href="https://github.com/Pulzzz06" target="_blank">GitHub (@Pulzzz06)</a></li>
                     </ul>
+                </div>
+            </div>
+
+            <!-- 3 Kartu Fokus Keahlian -->
+            <div class="roles-grid">
+                <div class="role-card">
+                    <h3 class="hover-zoom">AI Engineering</h3>
+                    <p>Eksplorasi pengolahan data, pemodelan pembelajaran mesin, serta integrasi kecerdasan buatan ke dalam aplikasi praktis.</p>
+                    <div class="tag-group">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">AI Learning Path</span>
+                        <span class="tech-tag">Data Pipeline</span>
+                        <span class="tech-tag">SQL & PostgreSQL</span>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <h3 class="hover-zoom">Game Development</h3>
+                    <p>Perancangan mekanik permainan, penulisan narasi & worldbuilding, serta rekayasa tata suara interaktif untuk game.</p>
+                    <div class="tag-group">
+                        <span class="tech-tag">C++</span>
+                        <span class="tech-tag">Game Lore & Design</span>
+                        <span class="tech-tag">FMOD Studio</span>
+                        <span class="tech-tag">Reaper DAW</span>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <h3 class="hover-zoom">Front-End Development</h3>
+                    <p>Pembuatan antarmuka web dan aplikasi yang responsif, terstruktur rapi, serta nyaman digunakan berdasarkan evaluasi UX.</p>
+                    <div class="tag-group">
+                        <span class="tech-tag">HTML5 & CSS3</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Figma UI/UX</span>
+                        <span class="tech-tag">Docker</span>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- BAGIAN 2: JADWAL PERKULIAHAN (DARI SCREENSHOT) -->
+        <!-- BAGIAN 2: JADWAL PERKULIAHAN -->
         <section id="jadwal">
-            <h2 class="section-title">📅 Jadwal Perkuliahan</h2>
-            
-            <div class="schedule-controls">
-                <div class="day-filters">
-                    <button class="filter-btn active" onclick="filterJadwal('Semua', this)">Semua Hari</button>
-                    <button class="filter-btn" onclick="filterJadwal('Senin', this)">Senin</button>
-                    <button class="filter-btn" onclick="filterJadwal('Selasa', this)">Selasa</button>
-                    <button class="filter-btn" onclick="filterJadwal('Rabu', this)">Rabu</button>
-                    <button class="filter-btn" onclick="filterJadwal('Kamis', this)">Kamis</button>
-                </div>
-                <input type="text" id="cariMatkul" class="search-input" placeholder="🔍 Cari matkul / dosen / ruang..." oninput="cariDiTabel()">
+            <div class="section-header">
+                <h2 class="section-title hover-zoom">Jadwal Perkuliahan Semester 5</h2>
+                <span style="font-size: 0.82rem; color: var(--text-muted);">Total: 7 Mata Kuliah (20 SKS)</span>
             </div>
 
-            <div class="table-responsive">
-                <table class="krs-table" id="tabelJadwal">
+            <div class="schedule-bar">
+                <div class="day-buttons">
+                    <button class="filter-btn active" onclick="filterHari('Semua', this)">Semua Hari</button>
+                    <button class="filter-btn" onclick="filterHari('Senin', this)">Senin</button>
+                    <button class="filter-btn" onclick="filterHari('Selasa', this)">Selasa</button>
+                    <button class="filter-btn" onclick="filterHari('Rabu', this)">Rabu</button>
+                    <button class="filter-btn" onclick="filterHari('Kamis', this)">Kamis</button>
+                </div>
+                <input type="text" id="inputCariJadwal" class="input-box" placeholder="Cari mata kuliah, ruang, atau dosen..." oninput="saringJadwal()">
+            </div>
+
+            <div class="table-wrap">
+                <table class="krs-table" id="tabelKrs">
                     <thead>
                         <tr>
                             <th rowspan="2">No</th>
@@ -593,71 +989,71 @@
                     </thead>
                     <tbody>
                         <tr data-hari="Senin">
-                            <td class="text-center">1</td>
-                            <td>20100470501024 - Manajemen Basis Data</td>
-                            <td class="text-center">D</td>
-                            <td class="text-center sks-val">3</td>
-                            <td class="text-center">5</td>
+                            <td class="center">1</td>
+                            <td><span class="hover-zoom">20100470501024 - Manajemen Basis Data</span></td>
+                            <td class="center">D</td>
+                            <td class="center sks-cell">3</td>
+                            <td class="center">5</td>
                             <td>R.4.12</td>
                             <td>Senin 12:40:00-15:10:00</td>
                             <td>- Wildan Budiawan Zulfikar S.T., M.Kom.</td>
                         </tr>
                         <tr data-hari="Kamis">
-                            <td class="text-center">2</td>
-                            <td>20100470501030 - Pengembangan Aplikasi Web</td>
-                            <td class="text-center">C</td>
-                            <td class="text-center sks-val">3</td>
-                            <td class="text-center">5</td>
+                            <td class="center">2</td>
+                            <td><span class="hover-zoom">20100470501030 - Pengembangan Aplikasi Web</span></td>
+                            <td class="center">C</td>
+                            <td class="center sks-cell">3</td>
+                            <td class="center">5</td>
                             <td>Lab. Programming</td>
                             <td>Kamis 12:40:00-15:10:00</td>
                             <td>- Muhammad Deden Firdaus ST, M.Kom</td>
                         </tr>
                         <tr data-hari="Senin">
-                            <td class="text-center">3</td>
-                            <td>20100470501034 - Manajemen Proyek Perangkat Lunak</td>
-                            <td class="text-center">D</td>
-                            <td class="text-center sks-val">3</td>
-                            <td class="text-center">5</td>
+                            <td class="center">3</td>
+                            <td><span class="hover-zoom">20100470501034 - Manajemen Proyek Perangkat Lunak</span></td>
+                            <td class="center">D</td>
+                            <td class="center sks-cell">3</td>
+                            <td class="center">5</td>
                             <td>R.4.01</td>
                             <td>Senin 15:30:00-18:00:00</td>
                             <td>- Agung Wahana S.E., M.T.</td>
                         </tr>
                         <tr data-hari="Rabu">
-                            <td class="text-center">4</td>
-                            <td>20100470503007 - Sosio-Informatika dan Profesionalisme</td>
-                            <td class="text-center">D</td>
-                            <td class="text-center sks-val">2</td>
-                            <td class="text-center">7</td>
+                            <td class="center">4</td>
+                            <td><span class="hover-zoom">20100470503007 - Sosio-Informatika dan Profesionalisme</span></td>
+                            <td class="center">D</td>
+                            <td class="center sks-cell">2</td>
+                            <td class="center">7</td>
                             <td>R.4.10</td>
                             <td>Rabu 12:40:00-14:20:00</td>
                             <td>- Dr. Yana Aditia Gerhana ST., M.Kom.</td>
                         </tr>
                         <tr data-hari="Selasa">
-                            <td class="text-center">5</td>
-                            <td>20100470501028 - Pengembangan Aplikasi Mobile</td>
-                            <td class="text-center">D</td>
-                            <td class="text-center sks-val">3</td>
-                            <td class="text-center">5</td>
+                            <td class="center">5</td>
+                            <td><span class="hover-zoom">20100470501028 - Pengembangan Aplikasi Mobile</span></td>
+                            <td class="center">D</td>
+                            <td class="center sks-cell">3</td>
+                            <td class="center">5</td>
                             <td>R.4.01</td>
                             <td>Selasa 15:30:00-18:00:00</td>
                             <td>- H. Aldy Rialdy Atmadja M.T</td>
                         </tr>
                         <tr data-hari="Kamis">
-                            <td class="text-center">6</td>
-                            <td>20100470501026 - Jaringan Komputer</td>
-                            <td class="text-center">C</td>
-                            <td class="text-center sks-val">3</td>
-                            <td class="text-center">5</td>
+                            <td class="center">6</td>
+                            <td><span class="hover-zoom">20100470501026 - Jaringan Komputer</span></td>
+                            <td class="center">C</td>
+                            <td class="center sks-cell">3</td>
+                            <td class="center">5</td>
                             <td>R.4.10</td>
                             <td>Kamis 09:30:00-12:00:00</td>
                             <td>- Cecep Nurul Alam M.T.</td>
                         </tr>
                         <tr data-hari="Kamis">
-                            <td class="text-center">7</td>
-                            <td>20100470501032 - Interaksi Manusia dan Komputer</td>
-                            <td class="text-center">D</td>
-                            <td class="text-center sks-val">3</td>
-                            <td class="text-center">5</td>
+                            <td class="center">7</td>
+                            <td><span class="hover-zoom">20100470501032 - Interaksi Manusia dan Komputer</span></td>
+                            <td class="center">D</td>
+                            <td class="center sks-cell">3</td>
+                            <td class="center">5</td>
                             <td>R.4.01</td>
                             <td>Kamis 07:00:00-09:30:00</td>
                             <td>- Dr. Cepy Slamet S.T., M.Kom.</td>
@@ -665,270 +1061,524 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="3" class="text-center">JUMLAH SKS</td>
-                            <td class="text-center" id="totalSks">20</td>
+                            <td colspan="3" class="center">JUMLAH SKS</td>
+                            <td class="center" id="totalSksCell">20</td>
                             <td colspan="4"></td>
                         </tr>
                     </tfoot>
                 </table>
             </div>
 
-            <!-- Opsional: Tempat menampilkan gambar screenshot asli jika disimpan sebagai jadwal.png -->
-            <details class="ss-preview-box">
-                <summary>🖼️ Lihat Gambar Screenshot Jadwal Asli</summary>
+            <details class="ss-drawer">
+                <summary class="hover-zoom">Lihat Lampiran Gambar Screenshot Jadwal Asli</summary>
                 <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">
-                    *(Tips: Simpan gambar screenshot jadwalmu dengan nama <strong>jadwal.png</strong> satu folder dengan file HTML ini, atau pilih langsung filenya di bawah)*
+                    Simpan file screenshot dengan nama <strong>jadwal.png</strong> di folder proyek ini, atau muat langsung dari tombol di bawah:
                 </p>
-                <input type="file" accept="image/*" onchange="gantiGambarJadwal(event)" style="margin-top: 8px; font-size: 0.8rem;">
+                <input type="file" accept="image/*" onchange="muatGambarJadwal(event)" style="margin-top: 8px; font-size: 0.8rem;">
                 <br>
-                <img id="imgJadwalAsli" src="jadwal.png" alt="Screenshot Jadwal Kuliah" onerror="this.style.display='none'">
+                <img id="previewJadwalImg" src="jadwal.png" alt="Screenshot KRS" onerror="this.style.display='none'">
             </details>
         </section>
 
-        <!-- BAGIAN 3: ARSIP FOLDER & UPLOAD FILE (SERTIFIKAT, FOTO, VIDEO, DOKUMEN) -->
+        <!-- BAGIAN 3: RUANG ARSIP (UPLOAD FOLDER, FILE, LINK WEB, & CATATAN) -->
         <section id="arsip">
-            <h2 class="section-title">📂 Ruang Arsip Folder & Berkas Digital</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">
-                Buat folder baru atau langsung <em>upload</em> satu folder penuh dari perangkatmu. Kamu juga bisa menambahkan file (foto, video, sertifikat PDF, maupun dokumen) ke dalam masing-masing folder kapan saja.
-            </p>
+            <div class="section-header">
+                <h2 class="section-title hover-zoom">Ruang Arsip Berkas, Sertifikat & Tautan</h2>
+                <span style="font-size: 0.8rem; color: var(--accent); font-weight: 600;">Tersimpan Permanen di Browser (IndexedDB)</span>
+            </div>
 
-            <div class="vault-toolbar">
-                <div class="input-group">
-                    <input type="text" id="inputNamaFolder" placeholder="Ketik nama folder baru (contoh: Sertifikat Lomba)...">
-                    <button class="btn" onclick="buatFolderBaru()">+ Buat Folder</button>
+            <div class="vault-controls">
+                <div class="folder-create-group">
+                    <input type="text" id="namaFolderBaru" class="input-box" placeholder="Nama folder baru (mis: Sertifikat Dicoding / Proyek)...">
+                    <button class="btn" onclick="buatFolder()">+ Buat Folder</button>
                 </div>
 
-                <label class="btn btn-outline">
-                    📁 Upload Folder Utuh dari Perangkat
-                    <input type="file" webkitdirectory directory multiple onchange="uploadFolderUtuh(event)" hidden>
+                <label class="btn btn-secondary">
+                    Upload 1 Folder Penuh dari Perangkat
+                    <input type="file" webkitdirectory directory multiple onchange="uploadFolderDariPerangkat(event)" hidden>
                 </label>
             </div>
 
-            <!-- Grid Daftar Folder -->
-            <div id="wadahFolder" class="folder-grid"></div>
+            <div id="gridFolder" class="folder-grid"></div>
         </section>
     </main>
 
-    <!-- MODAL PREVIEW UNTUK FOTO / VIDEO / PDF -->
-    <div class="modal-overlay" id="modalPreview" onclick="tutupModal(event)">
-        <div class="modal-box" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <strong id="judulModal">Preview Berkas</strong>
-                <button class="btn" style="background: var(--danger); color: #fff; padding: 5px 12px;" onclick="tutupModal()">✕ Tutup</button>
+    <!-- PEMUTAR MUSIK MELAYANG (JUSTIN BIEBER - CONFIDENT) -->
+    <div class="music-widget" id="musicWidget">
+        <button class="music-play-btn" id="btnPlayMusik" onclick="toggleMusik()" title="Putar / Jeda Lagu">▶</button>
+        <div class="music-info">
+            <span class="music-title hover-zoom">Confident</span>
+            <span class="music-artist">Justin Bieber ft. Chance</span>
+        </div>
+        <div class="eq-bars">
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+        </div>
+        <input type="range" class="vol-slider" min="0" max="1" step="0.05" value="0.6" oninput="aturVolume(this.value)" title="Volume Musik">
+        <audio id="audioPlayer" src="confident.mp3" loop preload="auto"></audio>
+    </div>
+
+    <!-- MODAL 1: PREVIEW FILE ATAU CATATAN TEKS -->
+    <div class="modal-backdrop" id="modalPreview" onclick="tutupModalPreview()">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <div class="modal-top">
+                <strong id="judulModalPreview">Detail Item</strong>
+                <button class="btn btn-mini" onclick="tutupModalPreview()">Tutup ✕</button>
             </div>
-            <div class="modal-body" id="isiModal"></div>
+            <div class="modal-content" id="isiModalPreview"></div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: TAMBAH LINK WEB ATAU CATATAN TEKS KE FOLDER -->
+    <div class="modal-backdrop" id="modalCatatan" onclick="tutupModalCatatan()">
+        <div class="modal-card" style="max-width: 500px;" onclick="event.stopPropagation()">
+            <div class="modal-top">
+                <strong id="judulModalCatatan">Tambah Tautan Web / Catatan</strong>
+                <button class="btn btn-mini" onclick="tutupModalCatatan()">Batal ✕</button>
+            </div>
+            <div class="modal-content">
+                <div class="form-stack">
+                    <input type="hidden" id="folderTargetCatatan">
+                    <div>
+                        <label>Judul Item</label>
+                        <input type="text" id="inputJudulItem" placeholder="Contoh: Repo GitHub Tugas / Catatan Ide Game">
+                    </div>
+                    <div>
+                        <label>URL Link Website (Kosongkan jika hanya catatan teks biasa)</label>
+                        <input type="url" id="inputUrlItem" placeholder="https://github.com/...">
+                    </div>
+                    <div>
+                        <label>Isi Catatan / Keterangan</label>
+                        <textarea id="inputTeksItem" rows="4" placeholder="Tulis deskripsi atau catatan di sini..."></textarea>
+                    </div>
+                    <button class="btn" style="justify-content: center; margin-top: 6px;" onclick="simpanCatatanAtauLink()">Simpan ke Dalam Folder</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 Muhammad Zacky Firdaus — Tugas Pengembangan Aplikasi Web (HTML5, CSS3 & JS)</p>
+        <p class="interactive-text">&copy; 2026 Muhammad Zacky Firdaus — Teknik Informatika UIN Sunan Gunung Djati Bandung</p>
     </footer>
 
-    <!-- LOGIKA JAVASCRIPT -->
     <script>
-        /* ==========================================
-           1. LOGIKA FILTER & CARI TABEL JADWAL KULIAH
-           ========================================== */
-        let hariAktif = 'Semua';
+        /* =========================================================
+           1. EFEK HOVER MEMBESAR PER KATA (INTERACTIVE WORDS)
+           ========================================================= */
+        function aktifkanZoomPerKata() {
+            document.querySelectorAll('.interactive-text').forEach(elemen => {
+                const teksAsli = elemen.innerText.trim();
+                const kataKata = teksAsli.split(/\s+/);
+                elemen.innerHTML = kataKata.map(kata => `<span class="word-zoom">${kata}</span>`).join(' ');
+            });
+        }
+        aktifkanZoomPerKata();
 
-        function filterJadwal(hari, tombol) {
-            hariAktif = hari;
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        /* =========================================================
+           2. EFEK MENGETIK OTOMATIS (AI ENGINEER, GAME DEV, FE DEV)
+           ========================================================= */
+        const daftarRole = [
+            "AI Engineer",
+            "Game Developer",
+            "Front-End Web Developer"
+        ];
+        let idxRole = 0;
+        let idxHuruf = 0;
+        let sedangMenghapus = false;
+
+        function jalankanEfekKetik() {
+            const target = document.getElementById('typedRole');
+            const kataSekarang = daftarRole[idxRole];
+
+            if (!sedangMenghapus) {
+                target.textContent = kataSekarang.slice(0, ++idxHuruf);
+                if (idxHuruf === kataSekarang.length) {
+                    sedangMenghapus = true;
+                    setTimeout(jalankanEfekKetik, 1800);
+                    return;
+                }
+            } else {
+                target.textContent = kataSekarang.slice(0, --idxHuruf);
+                if (idxHuruf === 0) {
+                    sedangMenghapus = false;
+                    idxRole = (idxRole + 1) % daftarRole.length;
+                }
+            }
+            setTimeout(jalankanEfekKetik, sedangMenghapus ? 45 : 85);
+        }
+        jalankanEfekKetik();
+
+        /* =========================================================
+           3. DARK / LIGHT MODE & SCROLL PROGRESS BAR
+           ========================================================= */
+        function setelTemaAwal() {
+            const tersimpan = localStorage.getItem('tema_zacky') || 'dark';
+            document.documentElement.setAttribute('data-theme', tersimpan);
+            perbaruiTombolTema(tersimpan);
+        }
+
+        function ubahTema() {
+            const sekarang = document.documentElement.getAttribute('data-theme');
+            const baru = sekarang === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', baru);
+            localStorage.setItem('tema_zacky', baru);
+            perbaruiTombolTema(baru);
+        }
+
+        function perbaruiTombolTema(tema) {
+            const btn = document.getElementById('themeToggle');
+            btn.textContent = tema === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+        }
+        setelTemaAwal();
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop;
+            const tinggi = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const persen = tinggi > 0 ? (scrollTop / tinggi) * 100 : 0;
+            document.getElementById('scrollProgress').style.width = persen + '%';
+        });
+
+        /* =========================================================
+           4. FILTER & PENCARIAN TABEL JADWAL PERKULIAHAN
+           ========================================================= */
+        let filterHariAktif = 'Semua';
+
+        function filterHari(hari, tombol) {
+            filterHariAktif = hari;
+            document.querySelectorAll('.day-buttons .filter-btn').forEach(b => b.classList.remove('active'));
             tombol.classList.add('active');
-            terapkanFilterJadwal();
+            saringJadwal();
         }
 
-        function cariDiTabel() {
-            terapkanFilterJadwal();
-        }
-
-        function terapkanFilterJadwal() {
-            const kataKunci = document.getElementById('cariMatkul').value.toLowerCase();
-            const baris = document.querySelectorAll('#tabelJadwal tbody tr');
-            let jumlahSksTampil = 0;
+        function saringJadwal() {
+            const kueri = document.getElementById('inputCariJadwal').value.toLowerCase();
+            const baris = document.querySelectorAll('#tabelKrs tbody tr');
+            let totalSks = 0;
 
             baris.forEach(tr => {
-                const hariBaris = tr.getAttribute('data-hari');
-                const teksBaris = tr.innerText.toLowerCase();
-                const sks = parseInt(tr.querySelector('.sks-val').innerText) || 0;
+                const hari = tr.getAttribute('data-hari');
+                const isi = tr.innerText.toLowerCase();
+                const sks = parseInt(tr.querySelector('.sks-cell').innerText) || 0;
 
-                const cocokHari = (hariAktif === 'Semua' || hariBaris === hariAktif);
-                const cocokCari = teksBaris.includes(kataKunci);
+                const cocokHari = (filterHariAktif === 'Semua' || hari === filterHariAktif);
+                const cocokTeks = isi.includes(kueri);
 
-                if (cocokHari && cocokCari) {
+                if (cocokHari && cocokTeks) {
                     tr.style.display = '';
-                    jumlahSksTampil += sks;
+                    totalSks += sks;
                 } else {
                     tr.style.display = 'none';
                 }
             });
 
-            document.getElementById('totalSks').innerText = jumlahSksTampil;
+            document.getElementById('totalSksCell').innerText = totalSks;
         }
 
-        function gantiGambarJadwal(event) {
+        function muatGambarJadwal(event) {
             const file = event.target.files[0];
             if (file) {
-                const img = document.getElementById('imgJadwalAsli');
+                const img = document.getElementById('previewJadwalImg');
                 img.src = URL.createObjectURL(file);
                 img.style.display = 'block';
             }
         }
 
-        /* ==========================================
-           2. LOGIKA UPLOAD FOLDER & FILE ARSIP
-           ========================================== */
-        // Folder bawaan awal supaya tampilan langsung terisi rapi
-        const databaseFolder = {
-            "Sertifikat & Pencapaian": [],
-            "Dokumentasi Foto & Video": [],
-            "Tugas & Materi Kuliah": []
-        };
+        /* =========================================================
+           5. PEMUTAR MUSIK (JUSTIN BIEBER - CONFIDENT)
+           ========================================================= */
+        const audio = document.getElementById('audioPlayer');
+        const widgetMusik = document.getElementById('musicWidget');
+        const btnPlay = document.getElementById('btnPlayMusik');
+        audio.volume = 0.6;
 
-        function buatFolderBaru() {
-            const input = document.getElementById('inputNamaFolder');
-            const nama = input.value.trim();
-            if (!nama) {
-                alert('Silakan ketik nama foldernya terlebih dahulu!');
-                return;
+        function toggleMusik() {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    btnPlay.textContent = '⏸';
+                    widgetMusik.classList.add('playing');
+                }).catch(() => {
+                    alert('Pastikan file lagu "confident.mp3" sudah ada di folder yang sama dengan index.html.');
+                });
+            } else {
+                audio.pause();
+                btnPlay.textContent = '▶';
+                widgetMusik.classList.remove('playing');
             }
-            if (databaseFolder[nama]) {
-                alert('Folder dengan nama tersebut sudah ada!');
-                return;
-            }
-            databaseFolder[nama] = [];
-            input.value = '';
-            renderSemuaFolder();
         }
 
-        function uploadFolderUtuh(event) {
+        function aturVolume(nilai) {
+            audio.volume = nilai;
+        }
+
+        /* =========================================================
+           6. PENYIMPANAN PERMANEN INDEXEDDB (FOLDER, FILE, & LINK)
+           ========================================================= */
+        const DB_NAME = 'ZackyPortfolioVaultDB';
+        const STORE_NAME = 'folders_store';
+        let dbInstance = null;
+        let stateFolder = {};
+
+        const folderDefault = {
+            "Sertifikat & Pencapaian": [],
+            "Proyek AI, Game & Web": [],
+            "Referensi Link & Catatan": []
+        };
+
+        function inisialisasiDB() {
+            const request = indexedDB.open(DB_NAME, 1);
+
+            request.onupgradeneeded = (e) => {
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains(STORE_NAME)) {
+                    db.createObjectStore(STORE_NAME);
+                }
+            };
+
+            request.onsuccess = (e) => {
+                dbInstance = e.target.result;
+                muatDataDariDB();
+            };
+
+            request.onerror = () => {
+                stateFolder = { ...folderDefault };
+                renderFolderGrid();
+            };
+        }
+
+        function muatDataDariDB() {
+            const tx = dbInstance.transaction(STORE_NAME, 'readonly');
+            const store = tx.objectStore(STORE_NAME);
+            const getReq = store.get('main_vault');
+
+            getReq.onsuccess = () => {
+                if (getReq.result) {
+                    stateFolder = getReq.result;
+                } else {
+                    stateFolder = { ...folderDefault };
+                    simpanKeDB();
+                }
+                renderFolderGrid();
+            };
+        }
+
+        function simpanKeDB() {
+            if (!dbInstance) return;
+            const tx = dbInstance.transaction(STORE_NAME, 'readwrite');
+            const store = tx.objectStore(STORE_NAME);
+            store.put(stateFolder, 'main_vault');
+        }
+
+        function buatFolder() {
+            const input = document.getElementById('namaFolderBaru');
+            const nama = input.value.trim();
+            if (!nama) return alert('Masukkan nama folder terlebih dahulu.');
+            if (stateFolder[nama]) return alert('Folder tersebut sudah ada.');
+
+            stateFolder[nama] = [];
+            input.value = '';
+            simpanKeDB();
+            renderFolderGrid();
+        }
+
+        function uploadFolderDariPerangkat(event) {
             const files = Array.from(event.target.files);
             files.forEach(file => {
-                const bagianPath = file.webkitRelativePath.split('/');
-                const namaFolder = bagianPath[0] || 'Folder Upload';
-                if (!databaseFolder[namaFolder]) {
-                    databaseFolder[namaFolder] = [];
-                }
-                databaseFolder[namaFolder].push(file);
+                const pathParts = file.webkitRelativePath.split('/');
+                const folderName = pathParts[0] || 'Folder Upload';
+                if (!stateFolder[folderName]) stateFolder[folderName] = [];
+                stateFolder[folderName].push({
+                    kind: 'file',
+                    name: file.name,
+                    type: file.type || 'application/octet-stream',
+                    size: file.size,
+                    blob: file
+                });
             });
             event.target.value = '';
-            renderSemuaFolder();
+            simpanKeDB();
+            renderFolderGrid();
         }
 
         function tambahFileKeFolder(namaFolder, event) {
-            const fileBaru = Array.from(event.target.files);
-            if (databaseFolder[namaFolder]) {
-                databaseFolder[namaFolder].push(...fileBaru);
-                renderSemuaFolder();
-            }
+            const files = Array.from(event.target.files);
+            if (!stateFolder[namaFolder]) return;
+
+            files.forEach(file => {
+                stateFolder[namaFolder].push({
+                    kind: 'file',
+                    name: file.name,
+                    type: file.type || 'application/octet-stream',
+                    size: file.size,
+                    blob: file
+                });
+            });
+            event.target.value = '';
+            simpanKeDB();
+            renderFolderGrid();
         }
 
-        function hapusFile(namaFolder, indexFile) {
-            databaseFolder[namaFolder].splice(indexFile, 1);
-            renderSemuaFolder();
+        function bukaModalCatatan(namaFolder) {
+            document.getElementById('folderTargetCatatan').value = namaFolder;
+            document.getElementById('judulModalCatatan').innerText = `Tambah Link / Catatan ke "${namaFolder}"`;
+            document.getElementById('inputJudulItem').value = '';
+            document.getElementById('inputUrlItem').value = '';
+            document.getElementById('inputTeksItem').value = '';
+            document.getElementById('modalCatatan').style.display = 'flex';
+        }
+
+        function tutupModalCatatan() {
+            document.getElementById('modalCatatan').style.display = 'none';
+        }
+
+        function simpanCatatanAtauLink() {
+            const namaFolder = document.getElementById('folderTargetCatatan').value;
+            const judul = document.getElementById('inputJudulItem').value.trim();
+            const url = document.getElementById('inputUrlItem').value.trim();
+            const teks = document.getElementById('inputTeksItem').value.trim();
+
+            if (!judul) return alert('Judul wajib diisi.');
+
+            stateFolder[namaFolder].push({
+                kind: url ? 'link' : 'note',
+                name: judul,
+                url: url,
+                content: teks,
+                date: new Date().toLocaleDateString('id-ID')
+            });
+
+            simpanKeDB();
+            tutupModalCatatan();
+            renderFolderGrid();
+        }
+
+        function hapusItem(namaFolder, index) {
+            stateFolder[namaFolder].splice(index, 1);
+            simpanKeDB();
+            renderFolderGrid();
         }
 
         function hapusFolder(namaFolder) {
             if (confirm(`Hapus folder "${namaFolder}" beserta seluruh isinya?`)) {
-                delete databaseFolder[namaFolder];
-                renderSemuaFolder();
+                delete stateFolder[namaFolder];
+                simpanKeDB();
+                renderFolderGrid();
             }
         }
 
-        function bukaPreviewFile(namaFolder, indexFile) {
-            const file = databaseFolder[namaFolder][indexFile];
-            const url = URL.createObjectURL(file);
+        function bukaItem(namaFolder, index) {
+            const item = stateFolder[namaFolder][index];
             const modal = document.getElementById('modalPreview');
-            const judul = document.getElementById('judulModal');
-            const isi = document.getElementById('isiModal');
+            const judul = document.getElementById('judulModalPreview');
+            const isi = document.getElementById('isiModalPreview');
 
-            judul.innerText = file.name;
+            judul.innerText = item.name;
 
-            if (file.type.startsWith('image/')) {
-                isi.innerHTML = `<img src="${url}" alt="${file.name}">`;
-            } else if (file.type.startsWith('video/')) {
-                isi.innerHTML = `<video src="${url}" controls autoplay></video>`;
-            } else if (file.type.startsWith('audio/')) {
-                isi.innerHTML = `<audio src="${url}" controls autoplay style="width:100%;"></audio>`;
-            } else if (file.type.includes('pdf')) {
-                isi.innerHTML = `<iframe src="${url}"></iframe>`;
-            } else {
+            if (item.kind === 'link') {
                 isi.innerHTML = `
-                    <p style="margin-bottom: 16px;">Berkas <strong>${file.name}</strong> siap diunduh atau dibuka di tab baru.</p>
-                    <a href="${url}" download="${file.name}" class="btn">⬇️ Download Berkas</a>
+                    <p style="margin-bottom: 12px; color: var(--text-muted);">${item.content || 'Tautan web eksternal.'}</p>
+                    <p style="margin-bottom: 18px; word-break: break-all;"><a href="${item.url}" target="_blank" style="color: var(--accent); font-weight: 700;">${item.url}</a></p>
+                    <a href="${item.url}" target="_blank" class="btn">Buka Website di Tab Baru ↗</a>
                 `;
+            } else if (item.kind === 'note') {
+                isi.innerHTML = `
+                    <div style="background: var(--bg-tertiary); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color); white-space: pre-wrap;">${item.content || '(Catatan kosong)'}</div>
+                `;
+            } else if (item.kind === 'file') {
+                const urlBlob = URL.createObjectURL(item.blob);
+                if (item.type.startsWith('image/')) {
+                    isi.innerHTML = `<img src="${urlBlob}" alt="${item.name}">`;
+                } else if (item.type.startsWith('video/')) {
+                    isi.innerHTML = `<video src="${urlBlob}" controls autoplay></video>`;
+                } else if (item.type.startsWith('audio/')) {
+                    isi.innerHTML = `<audio src="${urlBlob}" controls autoplay style="width:100%;"></audio>`;
+                } else if (item.type.includes('pdf')) {
+                    isi.innerHTML = `<iframe src="${urlBlob}"></iframe>`;
+                } else {
+                    isi.innerHTML = `
+                        <p style="margin-bottom: 16px;">Berkas <strong>${item.name}</strong> (${formatUkuran(item.size)}) siap diunduh.</p>
+                        <a href="${urlBlob}" download="${item.name}" class="btn">Download Berkas</a>
+                    `;
+                }
             }
 
             modal.style.display = 'flex';
         }
 
-        function tutupModal() {
-            const modal = document.getElementById('modalPreview');
-            const isi = document.getElementById('isiModal');
-            modal.style.display = 'none';
-            isi.innerHTML = '';
+        function tutupModalPreview() {
+            document.getElementById('modalPreview').style.display = 'none';
+            document.getElementById('isiModalPreview').innerHTML = '';
         }
 
-        function pilihIkonFile(tipe) {
-            if (tipe.startsWith('image/')) return '🖼️';
-            if (tipe.startsWith('video/')) return '🎬';
-            if (tipe.startsWith('audio/')) return '🎵';
-            if (tipe.includes('pdf')) return '📕';
+        function ikonItem(item) {
+            if (item.kind === 'link') return '🔗';
+            if (item.kind === 'note') return '📝';
+            if (item.type.startsWith('image/')) return '🖼️';
+            if (item.type.startsWith('video/')) return '🎬';
+            if (item.type.includes('pdf')) return '📕';
             return '📄';
         }
 
         function formatUkuran(bytes) {
+            if (!bytes) return '';
             if (bytes < 1024) return bytes + ' B';
             if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
             return (bytes / 1048576).toFixed(1) + ' MB';
         }
 
-        function renderSemuaFolder() {
-            const wadah = document.getElementById('wadahFolder');
-            wadah.innerHTML = '';
+        function renderFolderGrid() {
+            const container = document.getElementById('gridFolder');
+            container.innerHTML = '';
 
-            Object.keys(databaseFolder).forEach(namaFolder => {
-                const daftarFile = databaseFolder[namaFolder];
+            Object.keys(stateFolder).forEach(namaFolder => {
+                const daftar = stateFolder[namaFolder];
                 const namaAman = namaFolder.replace(/'/g, "\\'");
 
-                const htmlDaftarFile = daftarFile.map((file, idx) => `
-                    <li class="file-item">
-                        <span class="file-link" onclick="bukaPreviewFile('${namaAman}', ${idx})" title="Klik untuk preview ${file.name}">
-                            ${pilihIkonFile(file.type)} ${file.name}
-                        </span>
-                        <div class="file-meta">
-                            <span>${formatUkuran(file.size)}</span>
-                            <button class="del-btn" onclick="hapusFile('${namaAman}', ${idx})" title="Hapus file">✕</button>
-                        </div>
-                    </li>
-                `).join('');
+                const listHtml = daftar.map((item, idx) => {
+                    const keterangan = item.kind === 'file' ? formatUkuran(item.size) : (item.kind === 'link' ? 'LINK' : 'TEKS');
+                    return `
+                        <li class="item-row">
+                            <span class="item-label" onclick="bukaItem('${namaAman}',${idx})" title="Klik untuk membuka ${item.name}">
+                                ${ikonItem(item)}${item.name}
+                            </span>
+                            <div class="item-meta">
+                                <span>${keterangan}</span>
+                                <button class="icon-del" onclick="hapusItem('${namaAman}',${idx})" title="Hapus item">✕</button>
+                            </div>
+                        </li>
+                    `;
+                }).join('');
 
-                const kartu = document.createElement('div');
-                kartu.className = 'folder-card';
-                kartu.innerHTML = `
+                const card = document.createElement('div');
+                card.className = 'folder-card';
+                card.innerHTML = `
                     <div>
-                        <div class="folder-header">
-                            <span class="folder-title">📁 ${namaFolder}</span>
-                            <span class="file-count">${daftarFile.length} file</span>
+                        <div class="folder-head">
+                            <span class="folder-name hover-zoom">📁 ${namaFolder}</span>
+                            <span class="badge-count">${daftar.length} item</span>
                         </div>
-                        <ul class="file-list">
-                            ${htmlDaftarFile || '<li style="color: #64748b; font-size: 0.83rem; padding: 10px 0;">Belum ada berkas di folder ini.</li>'}
+                        <ul class="item-list">
+                            ${listHtml || '<li style="color: var(--text-muted); font-size: 0.82rem; padding: 10px 0;">Folder ini masih kosong.</li>'}
                         </ul>
                     </div>
-                    <div class="folder-footer">
-                        <label class="btn" style="font-size: 0.78rem; padding: 6px 12px;">
-                            + Tambah File (Foto/Video/Sertif)
-                            <input type="file" multiple onchange="tambahFileKeFolder('${namaAman}', event)" hidden>
-                        </label>
-                        <button class="del-btn" onclick="hapusFolder('${namaAman}')" title="Hapus Folder">🗑️ Hapus</button>
+                    <div class="folder-actions">
+                        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                            <label class="btn btn-mini">
+                                + File
+                                <input type="file" multiple onchange="tambahFileKeFolder('${namaAman}', event)" hidden>
+                            </label>
+                            <button class="btn btn-secondary btn-mini" onclick="bukaModalCatatan('${namaAman}')">
+                                + Link / Teks
+                            </button>
+                        </div>
+                        <button class="icon-del" onclick="hapusFolder('${namaAman}')" title="Hapus Folder">Hapus Folder</button>
                     </div>
                 `;
-                wadah.appendChild(kartu);
+                container.appendChild(card);
             });
         }
 
-        // Jalankan saat halaman pertama kali dibuka
-        renderSemuaFolder();
+        inisialisasiDB();
     </script>
 </body>
 </html>
